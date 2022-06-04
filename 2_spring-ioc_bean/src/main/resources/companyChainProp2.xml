@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--级联赋值: 第二种写法-->
+    <bean id="employee" class="com.atguigu.spring5.dependencyInjection.internalBean.entity.Employee">
+        <property name="employeeName" value="李四"/>
+        <property name="gender" value="男"/>
+        <!--级联赋值写法2，使用.链式写法
+            注意，类需要生成getter方法才能使用
+        -->
+        <property name="department" ref="department"></property>
+        <property name="department.departmentName" value="级联2：技术部"></property>
+    </bean>
+    <bean id="department" class="com.atguigu.spring5.dependencyInjection.internalBean.entity.Department">
+        <property name="departmentName" value="软件部门"></property>
+    </bean>
+
+</beans>

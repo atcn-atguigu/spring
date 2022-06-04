@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--service和dao对象创建-->
+    <bean id="courseService" class="com.atguigu.spring5.dependencyInjection.externalBean.service.CourseService">
+        <!--注入CourseDao对象
+            name：类里面的属性名称
+            ref: 外部bean的id
+        -->
+        <property name="courseDao" ref="courseDaoImpl"/>
+    </bean>
+
+    <!--这里dao的class使用的是实现类，告诉spring反射对应实现类从而能创建实现类对象-->
+    <bean id="courseDaoImpl" class="com.atguigu.spring5.dependencyInjection.externalBean.dao.CourseDaoImpl"></bean>
+</beans>

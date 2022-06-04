@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--级联赋值: 第一种写法-->
+    <bean id="employee" class="com.atguigu.spring5.dependencyInjection.internalBean.entity.Employee">
+        <property name="employeeName" value="李四"/>
+        <property name="gender" value="男"/>
+        <!--级联赋值写法1，使用ref-->
+        <property name="department" ref="department"/>
+    </bean>
+    <bean id="department" class="com.atguigu.spring5.dependencyInjection.internalBean.entity.Department">
+        <property name="departmentName" value="级联1：软件部门"/>
+    </bean>
+
+</beans>
