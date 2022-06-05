@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <!-- 把集合注入部分提取出来， 使用xsi:util 命名空间 -->
+    <!--提取list集合类型属性注入-->
+    <util:list id="utilList">
+        <value>诗经</value>
+        <value>九阳神功</value>
+        <value>九阴真经</value>
+    </util:list>
+
+    <bean id="book" class="com.atguigu.spring5.dependencyInjection.collections.Book">
+        <!--ref util的bean id完成list集合注入-->
+        <property name="bookList" ref="utilList"/>
+    </bean>
+</beans>
