@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--非自动装配写法-->
+    <!--
+    <bean id="dept" class="com.atguigu.spring5.dependencyInjection.autowired.Department"/>
+
+    <bean id="emp" class="com.atguigu.spring5.dependencyInjection.autowired.Employee">
+        <property name="department" ref="dept"></property>
+    </bean>
+    -->
+
+
+    <!--实现自动装配
+        bean标签属性autowire，配置自动装配
+        autowire属性常用两个值：
+            byName - 根据属性名称注入
+            byType - 根据属性类型注入
+    -->
+    <bean id="dept" class="com.atguigu.spring5.dependencyInjection.autowired.Department"/>
+<!--    <bean id="dept2" class="com.atguigu.spring5.dependencyInjection.autowired.Department"/>-->
+<!--    <bean id="emp" class="com.atguigu.spring5.dependencyInjection.autowired.Employee" autowire="byName"/>-->
+    <bean id="emp" class="com.atguigu.spring5.dependencyInjection.autowired.Employee" autowire="byType"/>
+</beans>

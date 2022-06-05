@@ -16,6 +16,7 @@
         <module>4_spring-ioc_FactoryBean</module>
         <module>5_spring-ioc_beanScope</module>
         <module>6_spring-ioc_beanLifeCycle</module>
+        <module>7_spring-ioc_beanAutowired</module>
     </modules>
 
 </project>
