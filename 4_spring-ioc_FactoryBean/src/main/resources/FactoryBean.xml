@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--MyBean类，该类实现FactoryBean接口，更改返回类型为Course-->
+    <bean id="myBean" class="com.atguigu.spring5.dependencyInjection.factoryBean.MyBean"/>
+</beans>
