@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置User对象创建-->
+    <bean id="student" class="com.atguigu.spring5.dependencyInjection.collections.Student">
+
+        <!-- 1 - String[]类型 -->
+        <!--list写法 - 与Array通用-->
+        <property name="studentName">
+            <list>
+                <value>王五</value>
+                <value>小五</value>
+            </list>
+        </property>
+        <!--Array写法 - 与list通用-->
+        <property name="courses">
+            <array>
+                <value>java</value>
+                <value>python</value>
+            </array>
+        </property>
+
+        <!-- 2 - List<String>类型 -->
+        <property name="list">
+            <!--方式一-->
+<!--            <array>-->
+<!--                <value>list-1</value>-->
+<!--                <value>list-2</value>-->
+<!--            </array>-->
+            <!--方式二-->
+            <list>
+                <value>list-3</value>
+                <value>list-4</value>
+            </list>
+        </property>
+
+        <!-- 3 - Map<String, String>类型 -->
+        <property name="maps">
+            <map>
+                <entry key="k1" value="v1"/>
+                <entry key="k2" value="v2"/>
+                <entry key="k3" value="v3"/>
+            </map>
+        </property>
+
+        <!-- 4 - Set<String>类型 -->
+        <property name="sets">
+            <set>
+                <value>set-1</value>
+                <value>set-2</value>
+            </set>
+        </property>
+    </bean>
+</beans>
