@@ -17,6 +17,8 @@
         <module>5_spring-ioc_beanScope</module>
         <module>6_spring-ioc_beanLifeCycle</module>
         <module>7_spring-ioc_beanAutowired</module>
+        <module>8_spring-ioc_beanExternalXMLConfig</module>
+        <module>9_spring-ioc_beanAnnotation</module>
     </modules>
 
 </project>
