@@ -14,6 +14,7 @@
         <module>2_spring-ioc_bean</module>
         <module>3_spring-ioc_beanCollections</module>
         <module>4_spring-ioc_FactoryBean</module>
+        <module>5_spring-ioc_beanScope</module>
     </modules>
 
 </project>
