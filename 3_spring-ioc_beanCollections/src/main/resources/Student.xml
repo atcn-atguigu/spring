@@ -53,5 +53,21 @@
                 <value>set-2</value>
             </set>
         </property>
+
+        <!-- 5 - List<Course>类型 -->
+        <property name="courseList">
+            <list>
+                <ref bean="course1"></ref>
+                <ref bean="course2"></ref>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 5 - List<Course>类型: Course的bean-->
+    <bean id="course1" class="com.atguigu.spring5.dependencyInjection.collections.Course">
+        <property name="courseName" value="语文"/>
+    </bean>
+    <bean id="course2" class="com.atguigu.spring5.dependencyInjection.collections.Course">
+        <property name="courseName" value="数学"/>
     </bean>
 </beans>
