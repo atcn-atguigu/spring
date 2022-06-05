@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置bean后置处理器实例
+        注意：但凡该xml配置文件中有一个bean实现类BeanPostProcessor接口，则所有属于该配置文件的bean都会应用上后置处理器！！
+    -->
+    <bean id="orders" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders" init-method="myCustomInitMethod" destroy-method="myCustomDestroyMethod">
+        <property name="orderName" value="电脑"/>
+    </bean>
+
+<!--    <bean id="orders2" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders" init-method="myCustomInitMethod" destroy-method="myCustomDestroyMethod">-->
+<!--        <property name="orderName" value="平板"/>-->
+<!--    </bean>-->
+
+    <bean id="myBeanPost" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.MyBeanPost"/>
+</beans>
