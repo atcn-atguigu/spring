@@ -19,6 +19,7 @@
         <module>7_spring-ioc_beanAutowired</module>
         <module>8_spring-ioc_beanExternalXMLConfig</module>
         <module>9_spring-ioc_beanAnnotation</module>
+        <module>10_spring-ioc_beanAnnotation_Autowired_Qualifier</module>
     </modules>
 
 </project>
