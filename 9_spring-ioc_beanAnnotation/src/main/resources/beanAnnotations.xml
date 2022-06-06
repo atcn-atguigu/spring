@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--开启组件扫面
+        方式1：如果扫描多个包， 多个包使用逗号隔开
+        方式2：扫描包上层目录
+    -->
+<!--    <context:component-scan base-package="com.atguigu.spring5.dependencyInjection.annotations.dao, com.atguigu.spring5.dependencyInjection.annotations.service"/>-->
+    <context:component-scan base-package="com.atguigu.spring5.dependencyInjection.annotations"/>
+
+</beans>
