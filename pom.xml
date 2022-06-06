@@ -21,6 +21,7 @@
         <module>9_spring-ioc_beanAnnotation</module>
         <module>10_spring-ioc_beanAnnotation_Autowired_Qualifier</module>
         <module>11_spring-ioc_beanFullAnnotation</module>
+        <module>12_spring-aop-jdk</module>
     </modules>
 
 </project>
