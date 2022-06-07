@@ -23,6 +23,7 @@
         <module>11_spring-ioc_beanFullAnnotation</module>
         <module>12_spring-aop-jdk</module>
         <module>13_spring-aop-aspectj</module>
+        <module>14_spring-aop-aspectj-xml</module>
     </modules>
 
 </project>

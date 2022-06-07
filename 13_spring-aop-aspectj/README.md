@@ -289,3 +289,22 @@ UserProxy.around()...环绕之后
 
 
 
+### 补充：完全使用注解扫描
+
+```xml
+<!-- 完全注解写法可以消除该配置文件，写法如下
+1、创建一个配置类在类里面添加如下注解
+@Configuration
+@ComponentScan(basePackages = {"com.atguigu"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class SpringConfig {
+}
+-->
+
+<!--开启组件扫面 - 等同于 @ComponentScan(basePackages = {"com.atguigu"})-->
+<context:component-scan base-package="com.atguigu.spring5.aop.annotation"/>
+
+<!--开启Aspect生成代理对象 - 等同于 @EnableAspectJAutoProxy(proxyTargetClass = true)-->
+<aop:aspectj-autoproxy/>
+```
+

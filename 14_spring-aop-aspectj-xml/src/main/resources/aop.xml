@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <!-- 1. 创建两个类的对象 -->
+    <bean id="user" class="com.atguigu.spring5.aop.xml.User"></bean>
+    <bean id="userProxy" class="com.atguigu.spring5.aop.xml.UserProxy"></bean>
+
+    <!-- 2. 配置aop增强-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="pointcutAddMethod" expression="execution(* com.atguigu.spring5.aop.xml.User.add(..))"/>
+
+        <!--配置切面: ref引用代理类-->
+        <aop:aspect ref="userProxy">
+            <!--配置增强作用在具体的方法上，这里是UserProxy类上的before方法作用在切入点add()方法上-->
+            <aop:before method="before" pointcut-ref="pointcutAddMethod"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
