@@ -3,16 +3,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--配置bean后置处理器实例
-        注意：但凡该xml配置文件中有一个bean实现类BeanPostProcessor接口，则所有属于该配置文件的bean都会应用上后置处理器！！
+
+    <!--普通bean-->
+<!--    <bean id="orders" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders">-->
+<!--        <property name="orderName" value="电脑"/>-->
+<!--    </bean>-->
+
+    <!--添加了初始化前后的方法，方法只做打印处理，来测试后置处理器是否正常工作
+        以下是bean里面写的打印方法，方法名随意：
+            init-method="myCustomInitMethod" destroy-method="myCustomDestroyMethod"
+        若不添加上面的init-method和destroy-method，后置处理器同样会作用域该bean
     -->
     <bean id="orders" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders" init-method="myCustomInitMethod" destroy-method="myCustomDestroyMethod">
         <property name="orderName" value="电脑"/>
     </bean>
 
-<!--    <bean id="orders2" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders" init-method="myCustomInitMethod" destroy-method="myCustomDestroyMethod">-->
-<!--        <property name="orderName" value="平板"/>-->
-<!--    </bean>-->
+    <!--不在bean类写初始化销毁的额外打印方法，实际上后置处理器对它也生效-->
+    <bean id="orders2" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders2">
+        <property name="orderName" value="电脑"/>
+    </bean>
 
+    <bean id="orders3" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.Orders3" init-method="myCustomInitMethod3" destroy-method="myCustomDestroyMethod3">
+        <property name="orderName" value="电脑"/>
+    </bean>
+
+    <!--myBeanPost的bean实现类，实现了BeanPostProcessor接口，则对于该配置文件的所有bean实例化前后都会执行该实例化前后的后置处理器！-->
     <bean id="myBeanPost" class="com.atguigu.spring5.dependencyInjection.beanLifeCycle.MyBeanPost"/>
 </beans>

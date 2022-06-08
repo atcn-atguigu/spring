@@ -1,6 +1,6 @@
 ### IOC(概念和原理)
 1、 什么是IOC
-- 控制反转，把对象创建和对象志坚的调用过程，交给Spring进行管理
+- 控制反转，把对象创建和对象之间的调用过程，交给Spring进行管理
 - 使用IOC目的，为了耦合度降低
 - 做入门案例IOC实现
 
@@ -37,7 +37,7 @@
 
 
 
-​	2） ApplicationContext：BeanFactory接口的字接口，提供更多强大的功能，一般由开发人员进行使用
+​	2） ApplicationContext：BeanFactory接口的子接口，提供更多强大的功能，一般由开发人员进行使用
 ​		*加载配置文件的时候就会提前根据配置文件对象进行创建
 
 > ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");

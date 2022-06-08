@@ -21,7 +21,7 @@
 ### AOP操作（准备）
 
 1、Spring框架一般基于AspectJ实现AOP操作
-	1）什么事AspectJ？
+	1）什么是AspectJ？
 		*AspectJ不是Spring组成部分，是独立的AOP框架，一般把AspectJ和Spring框架一起使用，进行AOP操作
 
 2、基于AspectJ实现AOP操作
@@ -45,7 +45,7 @@
 
 4、切入点表达式
 	1）切入点表达式作用：知道对哪个类里面的哪个方法进行增强
-	2）语法结构：execution([权限修饰符] [返回类型] [类全路径].[方法名称] [参数列表])
+	2）语法结构：execution([权限修饰符] [返回类型] [类全路径].[方法名称]([参数列表]))
 		举例1：对com.atguigu.dao.**BookDao类**的**add()方法**进行增强
 
 ```plain/text

@@ -10,7 +10,7 @@ public class UserDaoImpl implements UserDao {
         return a + b;
     }
 
-    public String update(String id) {
-        return id;
+    public void sendMsg(String msg) {
+        System.out.println("UserDaoImpl.sendMsg()方法执行了，内容为：" + msg);
     }
 }

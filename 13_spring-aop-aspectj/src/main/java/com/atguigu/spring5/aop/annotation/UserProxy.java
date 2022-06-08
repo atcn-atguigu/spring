@@ -21,7 +21,7 @@ public class UserProxy {
     public void around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         System.out.println("UserProxy.around()...环绕之前");
 
-        //被增强的方法
+        //被增强的方法 - 这里可以用来判断当前登陆用户的角色是否有权限继续访问相关页面，放行使用proceed()
         proceedingJoinPoint.proceed();  // 这里会捕获异常，如果此处被@AfterThrowing拦住，则不执行该环绕通知方法后的所有代码
 
         System.out.println("UserProxy.around()...环绕之后");
