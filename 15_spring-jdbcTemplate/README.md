@@ -373,8 +373,6 @@ jdbcTemplate.query(String sql, RowMapper<T> rowMapper, Object... args)
 第三个参数：返回值类型
 ```
 
-
-
 2、JdbcTemplate实现查询返回集合写法
 
 ```java
@@ -401,4 +399,122 @@ public List<Books> queryAll() {
   return booksList;
 }
 ```
+
+
+
+### JdbcTemplate操作数据库（批量操作）
+
+1、概念：批量操作 - 操作表里的多条记录
+
+2、场景：JdbcTemplate实现批量操作
+
+```plain/text
+jdbcTemplate.batchUpdate(String sql, List<Object[]> batchArgs)
+第一个参数：sql语句
+第二个参数：List集合，添加多条记录数据
+```
+
+3、JdbcTemplate实现**批量添加**操作
+
+```java
+// BookDaoImpl部分
+public void batchAdd(List<Object[]> batchArgs) {
+  String sql = "INSERT INTO spring_book.t_books (bookName, bookCounts, detail) VALUE (?,?,?)";
+  int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+  System.out.println("数据库INSERT添加的batch操作：" + Arrays.toString(ints));
+}
+
+// BookService部分
+public void batchAddBook(List<Object[]> batchArgs) {
+  bookDao.batchAdd(batchArgs);
+}
+
+// 测试类
+@Test
+public void testJdbcTemplate8_batchAddBook() {
+  ApplicationContext context = new ClassPathXmlApplicationContext("spring-jdbctemplate.xml");
+  BookService bookService = context.getBean("bookService", BookService.class);
+  List<Object[]> batchArgs = new ArrayList<Object[]>();
+  Object[] o1 = {"九阳神功", "99", "絕頂之內功心法，威力可能與另一路少林無上神功《易筋經》難分上下"};
+  Object[] o2 = {"九阴真经", "9", "武林中眾人夢寐以求的至寶，也是金庸小說最絕頂的武功之一"};
+  Object[] o3 = {"双剑合璧", "22", "一般用来指两个各有特色的人或集体，在配合时能够互相产生极大的辅助作用"};
+  batchArgs.add(o1);
+  batchArgs.add(o2);
+  batchArgs.add(o3);
+  bookService.batchAddBook(batchArgs);
+}
+```
+
+4、JdbcTemplate实现**修改**操作
+
+```java
+// BookDaoImpl部分
+public void batchUpdateBook(List<Object[]> batchArgs) {
+  String sql = "UPDATE spring_book.t_books SET bookName=?, bookCounts=?, detail=? WHERE bookID=?";
+  int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+  System.out.println("数据库UPDATE修改的batch操作：" + Arrays.toString(ints));
+}
+
+// BookService部分
+public void batchUpdateBook(List<Object[]> batchArgs) {
+  bookDao.batchUpdateBook(batchArgs);
+}
+// 拓展方法便于查找动态bookId
+public int getBookIdByBookName(Books books) {
+  List<Books> booksList = this.queryBookByName(books);
+  return booksList.get(0).getBookID();
+}
+
+// 测试类
+@Test
+public void testJdbcTemplate8_batchUpdateBook() {
+  ApplicationContext context = new ClassPathXmlApplicationContext("spring-jdbctemplate.xml");
+  BookService bookService = context.getBean("bookService", BookService.class);
+  // 通过书名拿到对应Id的所有书籍列表的第一个
+  List<Object[]> batchArgs = new ArrayList<Object[]>();
+  Object[] o1 = {"九阳神功", "199", "絕頂之內功心法，威力可能與另一路少林無上神功《易筋經》難分上下", bookService.getBookIdByBookName(new Books("九阳神功"))};
+  Object[] o2 = {"九阴真经", "19", "武林中眾人夢寐以求的至寶，也是金庸小說最絕頂的武功之一", bookService.getBookIdByBookName(new Books("九阴真经"))};
+  Object[] o3 = {"双剑合璧", "122", "一般用来指两个各有特色的人或集体，在配合时能够互相产生极大的辅助作用", bookService.getBookIdByBookName(new Books("双剑合璧"))};
+  batchArgs.add(o1);
+  batchArgs.add(o2);
+  batchArgs.add(o3);
+  bookService.batchUpdateBook(batchArgs);
+}
+```
+
+
+
+5、JdbcTemplate实现**删除**操作
+
+```java
+// BookDaoImpl部分
+public void batchDeleteBook(List<Object[]> batchArgs) {
+  String sql = "DELETE FROM spring_book.t_books WHERE bookID = ?";
+  int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+  System.out.println("数据库DELETE删除的batch操作：" + Arrays.toString(ints));
+}
+
+// BookService部分
+public void batchDeleteBook(List<Object[]> batchArgs) {
+  bookDao.batchDeleteBook(batchArgs);
+}
+
+// 测试类
+@Test
+public void testJdbcTemplate8_batchDeleteBook() {
+  ApplicationContext context = new ClassPathXmlApplicationContext("spring-jdbctemplate.xml");
+  BookService bookService = context.getBean("bookService", BookService.class);
+  // 通过书名拿到对应Id的所有书籍列表的第一个
+  List<Object[]> batchArgs = new ArrayList<Object[]>();
+  Object[] o1 = {bookService.getBookIdByBookName(new Books("九阳神功"))};
+  Object[] o2 = {bookService.getBookIdByBookName(new Books("九阴真经"))};
+  Object[] o3 = {bookService.getBookIdByBookName(new Books("双剑合璧"))};
+  batchArgs.add(o1);
+  batchArgs.add(o2);
+  batchArgs.add(o3);
+  bookService.batchDeleteBook(batchArgs);
+}
+```
+
+
 

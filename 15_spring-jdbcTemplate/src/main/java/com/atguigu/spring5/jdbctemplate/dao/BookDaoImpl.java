@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -80,7 +81,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * 查询书籍集合
+     * 查询书籍集合：jdbcTemplate.query(String sql, RowMapper<T> rowMapper, Object... args)
      * @return 集合
      */
     // 通过书籍name查询书籍 - 返回书籍集合
@@ -100,5 +101,28 @@ public class BookDaoImpl implements BookDao {
         List<Books> booksList = jdbcTemplate.query(sql, rowMapper);
         System.out.println("数据库SELECT查询操作，queryByName()");
         return booksList;
+    }
+
+    /**
+     * 数据库批量操作
+     * @param batchArgs
+     */
+    // 批量添加书籍
+    public void batchAdd(List<Object[]> batchArgs) {
+        String sql = "INSERT INTO spring_book.t_books (bookName, bookCounts, detail) VALUE (?,?,?)";
+        int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+        System.out.println("数据库INSERT添加的batch操作：" + Arrays.toString(ints));
+    }
+
+    public void batchUpdateBook(List<Object[]> batchArgs) {
+        String sql = "UPDATE spring_book.t_books SET bookName=?, bookCounts=?, detail=? WHERE bookID=?";
+        int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+        System.out.println("数据库UPDATE修改的batch操作：" + Arrays.toString(ints));
+    }
+
+    public void batchDeleteBook(List<Object[]> batchArgs) {
+        String sql = "DELETE FROM spring_book.t_books WHERE bookID = ?";
+        int[] ints = jdbcTemplate.batchUpdate(sql, batchArgs);
+        System.out.println("数据库DELETE删除的batch操作：" + Arrays.toString(ints));
     }
 }

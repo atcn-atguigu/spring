@@ -25,4 +25,11 @@ public interface BookDao {
 
     // 查询所有书籍 - 返回对象（书籍集合）
     List<Books> queryAll();
+
+    // 批量添加书籍
+    void batchAdd(List<Object[]> batchArgs);
+
+    void batchUpdateBook(List<Object[]> batchArgs);
+
+    void batchDeleteBook(List<Object[]> batchArgs);
 }

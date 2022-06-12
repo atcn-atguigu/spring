@@ -7,6 +7,20 @@ public class Books {
     private int bookCounts;
     private String detail;
 
+    public Books() {
+    }
+
+    public Books(int bookID, String bookName, int bookCounts, String detail) {
+        this.bookID = bookID;
+        this.bookName = bookName;
+        this.bookCounts = bookCounts;
+        this.detail = detail;
+    }
+
+    public Books(String bookName) {
+        this.bookName = bookName;
+    }
+
     public int getBookID() {
         return bookID;
     }

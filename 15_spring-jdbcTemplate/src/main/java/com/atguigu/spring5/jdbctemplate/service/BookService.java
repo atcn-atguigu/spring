@@ -42,4 +42,24 @@ public class BookService {
     public List<Books> queryBookAll() {
         return bookDao.queryAll();
     }
+
+    // 批量添加
+    public void batchAddBook(List<Object[]> batchArgs) {
+        bookDao.batchAdd(batchArgs);
+    }
+
+    public void batchUpdateBook(List<Object[]> batchArgs) {
+        bookDao.batchUpdateBook(batchArgs);
+    }
+
+
+    // 拓展方法便于查找动态bookId
+    public int getBookIdByBookName(Books books) {
+        List<Books> booksList = this.queryBookByName(books);
+        return booksList.get(0).getBookID();
+    }
+
+    public void batchDeleteBook(List<Object[]> batchArgs) {
+        bookDao.batchDeleteBook(batchArgs);
+    }
 }
