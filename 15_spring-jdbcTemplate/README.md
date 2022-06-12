@@ -203,7 +203,7 @@ public class Books {
 	2）调用JdbcTemplate对象里面update方法实现添加操作
 
 ```plain/text
-update方法：update(String sql, Object... args)
+jdbcTemplate.update(String sql, Object... args)
 第一个参数：sql语句
 第二个参数：可变参数，设置sql语句值
 ```
@@ -236,18 +236,10 @@ public class BookDaoImpl implements BookDao {
 
     // 添加书籍
     public void add(Books books) {
-        // 1. 创建sql语句, ?表示占位符，可被jdbcTemplate参数形式替换
         String sql = "INSERT INTO spring_book.t_books (bookName, bookCounts, detail) VALUE (?,?,?)";
-
-        // 2。 调用方法实现，返回影响行数
-        // 写法1.
-//        int update = jdbcTemplate.update(sql, books.getBookName(), books.getBookCounts(), books.getDetail());
-
-        // 写法2.
         Object[] args = {books.getBookName(), books.getBookCounts(), books.getDetail()};
         int update = jdbcTemplate.update(sql, args);
-
-        System.out.println(update);
+			  System.out.println("数据库INSERT添加操作，受影响的行数为：" + update);
     }
 }
  ```
@@ -282,4 +274,131 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.288 sec
 ![2_jdbcTemplate_Insert.jpg](readme_pic/2_jdbcTemplate_Insert.jpg)
 
 
+
+### JdbcTemplate操作数据库（修改和删除）- 基本和添加一致使用 jdbcTemplate.update(sql, args)
+
+```java
+// 添加
+public void add(Books books) {
+  String sql = "INSERT INTO spring_book.t_books (bookName, bookCounts, detail) VALUE (?,?,?)";
+  Object[] args = {books.getBookName(), books.getBookCounts(), books.getDetail()};
+  int update = jdbcTemplate.update(sql, args);
+  System.out.println("数据库INSERT添加操作，受影响的行数为：" + update);
+}
+// 修改
+public void update(Books books) {
+  String sql = "UPDATE spring_book.t_books SET bookName=?, bookCounts=?, detail=? WHERE bookID=?";
+  Object[] args = {books.getBookName(), books.getBookCounts(), books.getDetail(), books.getBookID()};
+  int update = jdbcTemplate.update(sql, args);
+  System.out.println("数据库UPDATE更新操作，受影响的行数为：" + update);
+}
+// 删除
+public void delete(Books books) {
+  String sql = "DELETE FROM spring_book.t_books WHERE bookID = ?";
+  Object[] args = {books.getBookID()};
+  int update = jdbcTemplate.update(sql, args);
+  System.out.println("数据库DELETE删除操作，受影响的行数为：" + update);
+}
+```
+
+
+
+### JdbcTemplate操作数据库（查询返回某个值）
+
+1、场景：查询表里有多少条记录，返回时某个值
+
+2、JdbcTemplate实现查询返回某个值的写法
+
+```plain/text
+jdbcTemplate.queryForObject(String sql, Class<T> requiredType)
+第一个参数：sql语句
+第二个参数：返回值类型
+```
+
+```java
+/**
+     * 查询表记录值：jdbcTemplate.queryForObject(String sql, Class<T> requiredType)
+     * @return 值
+     */
+// 查询表记录数
+public int queryTableCount() {
+  String sql = "SELECT COUNT(*) FROM spring_book.t_books";
+  int count = jdbcTemplate.queryForObject(sql, Integer.class);
+  System.out.println("数据库SELECT查询操作，queryTableCount()：" + count);
+  return count;
+}
+```
+
+
+
+### JdbcTemplate操作数据库（查询返回对象）
+
+1、场景：查询图书详情，通过Id
+
+```plain/text
+jdbcTemplate.queryForObject(String sql, RowMapper<T> rowMapper, Object... args)
+第一个参数：sql语句
+第二个参数：RowMapper，是接口，返回不同类型数据，使用这个接口里面实现类完成数据封装
+第三个参数：返回值类型
+```
+
+2、JdbcTemplate实现查询返回对象写法
+
+```java
+/**
+     * 查询一个书籍对象：jdbcTemplate.queryForObject(String sql, RowMapper<T> rowMapper, Object... args)
+     * @return 对象
+     */
+// 通过书籍id查询书籍 - 最多返回一个值（书籍）
+public Books queryById(Books books) {
+  String sql = "SELECT * FROM spring_book.t_books WHERE bookID=?";
+  Object[] args = {books.getBookID()};
+  RowMapper<Books> rowMapper = new BeanPropertyRowMapper<Books>(Books.class);
+  Books book = jdbcTemplate.queryForObject(sql, rowMapper, args);
+  System.out.println("数据库SELECT查询操作，queryById()");
+  return book;
+}
+```
+
+
+
+### JdbcTemplate操作数据库（查询返回集合）
+
+1、场景：查询图书列表分页...
+
+```plain/text
+jdbcTemplate.query(String sql, RowMapper<T> rowMapper, Object... args)
+第一个参数：sql语句
+第二个参数：RowMapper，是接口，返回不同类型数据，使用这个接口里面实现类完成数据封装
+第三个参数：返回值类型
+```
+
+
+
+2、JdbcTemplate实现查询返回集合写法
+
+```java
+/**
+     * 查询书籍集合
+     * @return 集合
+     */
+// 通过书籍name查询书籍 - 返回书籍集合
+public List<Books> queryByName(Books books) {
+  String sql = "SELECT * FROM spring_book.t_books WHERE bookName=?";
+  Object[] args = {books.getBookName()};
+  RowMapper<Books> rowMapper = new BeanPropertyRowMapper<Books>(Books.class);
+  List<Books> booksList = jdbcTemplate.query(sql, rowMapper, args);
+  System.out.println("数据库SELECT查询操作，queryByName()");
+  return booksList;
+}
+
+// 查询所有书籍 - 返回书籍集合
+public List<Books> queryAll() {
+  String sql = "SELECT * FROM spring_book.t_books";
+  RowMapper<Books> rowMapper = new BeanPropertyRowMapper<Books>(Books.class);
+  List<Books> booksList = jdbcTemplate.query(sql, rowMapper);
+  System.out.println("数据库SELECT查询操作，queryByName()");
+  return booksList;
+}
+```
 
