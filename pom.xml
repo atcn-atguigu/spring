@@ -25,6 +25,7 @@
         <module>13_spring-aop-aspectj</module>
         <module>14_spring-aop-aspectj-xml</module>
         <module>15_spring-jdbcTemplate</module>
+        <module>16_spring-transactional</module>
     </modules>
 
 </project>

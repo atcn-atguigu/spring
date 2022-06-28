@@ -1,0 +1,27 @@
+# Use root/123456 as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:8.0.21
+    container_name: ms.dev
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: spring_book
+
+    # security_opt:
+      # - seccomp:unconfined
+    cap_add: [ SYS_NICE ]
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    # links:
+     # - mysql
+    ports:
+      - 8080:8080
