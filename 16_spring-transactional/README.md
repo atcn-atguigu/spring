@@ -162,3 +162,46 @@ public class TestTransactional {
 
 ![3_successfulTransactionDataUpdated.png](./readme_pic/3_successfulTransactionDataUpdated.png)
 
+3、上面代码，如果正常执行则没有问题。但如果执行过程有异常，则会造成数据不一致，比如在service里的转账方法里模拟异常。
+把数据库里的数据恢复成各持有1000后重新执行抛异常后查看数据库状态。
+![4_simulateExceptionCausingDataInconsistence](./readme_pic/4_simulateExceptionCausingDataInconsistence.png)
+1）上面问题改如何解决呢？
+*使用事务进行解决。
+2）事务操作基本过程过程
+	// 第一步 开启事务
+	// 第二步 进行业务操作
+	//第三步 若没发生异常，提交事务
+	//第四步 出现异常，事务回滚
+
+```java
+@Service
+public class UserService {
+
+    // 注入dao
+    @Autowired
+    private UserDao userDao;
+
+    // Lucy给Mary转账的方法
+    public void moveMoney() {
+        try {
+            // 第一步 开启事务
+
+            // 第二步 进行业务操作
+
+            // Lucy少100
+            userDao.reduceMoney();
+
+            // 模拟异常
+            int i = 10/0;
+
+            // Mary多100
+            userDao.addMoney();
+
+            //第三步 若没发生异常，提交事务
+        } catch (Exception e) {
+            //第四步 出现异常，事务回滚
+        }
+    }
+}
+```
+

@@ -16,8 +16,10 @@ public class UserService {
         // Lucy少100
         userDao.reduceMoney();
 
+        // 模拟异常
+        int i = 10/0;
+
         // Mary多100
         userDao.addMoney();
     }
-
 }
