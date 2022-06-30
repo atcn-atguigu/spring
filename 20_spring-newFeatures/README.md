@@ -126,5 +126,102 @@ public void testGenericApplicationContext() {
 }
 ```
 
+5、Spring5支持整合JUnit5
 
+![1_Spring5_new_feat_test](./readme_pic/1_Spring5_new_feat_test.png)
+
+​	1）Spring5整合**JUnit4**
+​	第一步 引入spring
+
+```xml
+<!--spring test依赖整合Junit-->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-test</artifactId>
+  <version>5.3.3</version>
+</dependency>
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.12</version>
+</dependency>
+```
+
+​	第二步 创建测试类，使用注解方式完成
+
+```java
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class) //指定单元测试框架版本
+@ContextConfiguration("classpath:spring.xml") //加载配置文件
+public class JTest4 {
+
+    @Autowired  //这里可以直接注入bean对象来使用了
+    private User user;
+
+    @Test
+    public void printUser() {
+        System.out.println(user);
+    }
+
+}
+```
+
+​	2）Spring5整合**JUnit5**
+​	第一步 引入JUnit5的依赖
+
+```xml
+<dependency>
+  <groupId>org.junit.jupiter</groupId>
+  <artifactId>junit-jupiter</artifactId>
+  <version>5.7.2</version>
+</dependency>
+```
+
+​	第二步 创建测试类，使用注解方式完成
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+@ExtendWith(SpringExtension.class) //指定单元测试框架版本
+@ContextConfiguration("classpath:spring.xml") //加载配置文件
+public class JTest5 {
+
+    @Autowired  //这里可以直接注入bean对象来使用了
+    private User user;
+
+    @Test
+    public void printUser() {
+        System.out.println(user);
+    }
+
+}
+```
+
+​	引申：JUnit5整合使用复合注解的写法
+
+```java
+//@ExtendWith(SpringExtension.class) //指定单元测试框架版本
+//@ContextConfiguration("classpath:spring.xml") //加载配置文件
+@SpringJUnitConfig(locations = "classpath:spring.xml") // 对于Junit5，可以使用一个复合注解替代上面两个注解完成整合（简写法）
+public class JTest5_Simplify {
+
+    @Autowired  //这里可以直接注入bean对象来使用了
+    private User user;
+
+    @Test
+    public void printUser() {
+        System.out.println(user);
+    }
+
+}
+```
 
