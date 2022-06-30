@@ -27,6 +27,7 @@
         <module>15_spring-jdbcTemplate</module>
         <module>16_spring-transactional</module>
         <module>17_spring-transactional-annotations</module>
+        <module>18_spring-transactional-xml</module>
     </modules>
 
 </project>
