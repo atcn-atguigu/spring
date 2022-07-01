@@ -31,6 +31,7 @@
         <module>19_spring-transactional-FullAnnotations</module>
         <module>20_spring-newFeatures</module>
         <module>21_spring-newFeatures_WebFlux</module>
+        <module>22_spring-newFeatures_WebFlux_FunctionImpl</module>
     </modules>
 
 </project>
