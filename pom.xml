@@ -30,6 +30,7 @@
         <module>18_spring-transactional-xml</module>
         <module>19_spring-transactional-FullAnnotations</module>
         <module>20_spring-newFeatures</module>
+        <module>21_spring-newFeatures_WebFlux</module>
     </modules>
 
 </project>
