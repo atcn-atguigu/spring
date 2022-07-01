@@ -188,6 +188,25 @@ public class TestWebFluxReactor {
 ![5_操作符_flatMap](./readme_pic/5_操作符_flatMap.png)
 
 4、WebFlux原理（执行流程和核心API）
+	SpringWebFlux基于Reactor，默认容器是Netty，**Netty是高性能的NIO框架**，异步非阻塞的框架
+	1）Netty
+		*BIO （Blocking I/O）概念
+![6_BIO_sample](./readme_pic/6_BIO_sample.png)
+		*NIO（Non-blocking I/O）- Netty采用
+![7_NIO_sample](./readme_pic/7_NIO_sample.png)
+	2）SpringWebFlux执行过程和SpringMVC相似的
+		*SpringWebFlux核心控制器DispatchHandler，实现接口WebHandler
+		*接口**WebHandler**有一个**handle**方法
+![8_WebFlux_WebHandler的handle方法](./readme_pic/8_WebFlux_WebHandler的handle方法.png)
+![10_WebFlux_WebHandler接口实现类](/Users/WenjieYang/work/intellij/atguigu/spring/21_spring-newFeatures_WebFlux/readme_pic/10_WebFlux_WebHandler接口实现类.png)
+![9_WebFlux_WebHandler的handle方法实现类细节](./readme_pic/9_WebFlux_WebHandler的handle方法实现类细节.png)
+	3）SpringWebFlux里面DispatchHandler，负责请求的处理
+		*HandlerMapping - 根据客户端请求，能够**查询处理请求的方法**
+		*HandlerAdapter - 适配器效果，**真正负责请求处理**，实现的请求具体的业务方法
+		*HandlerResultHandler - 负责**响应结果处理**
+	4）SpringWebFlux实现函数式编程，两个接口：**RouterFunction（路由处理）**和**HandlerFunction（处理函数）**
+		*RouterFunction - 实现路由功能，将请求转发给对应的handler
+		*HandlerFunction - 处理请求并且响应函数的方法
 
 5、SpringWebFlux（基于注解编程模型）
 
