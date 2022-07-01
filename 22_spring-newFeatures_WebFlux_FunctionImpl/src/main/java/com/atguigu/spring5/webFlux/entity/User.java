@@ -12,6 +12,10 @@ public class User {
         this.age = age;
     }
 
+    //新增无参构造给WebClient调用
+    public User() {
+    }
+
     public String getName() {
         return name;
     }
@@ -34,5 +38,14 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
