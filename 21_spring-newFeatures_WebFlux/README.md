@@ -208,6 +208,169 @@ public class TestWebFluxReactor {
 		*RouterFunction - 实现路由功能，将请求转发给对应的handler
 		*HandlerFunction - 处理请求并且响应函数的方法
 
-5、SpringWebFlux（基于注解编程模型）
+5、SpringWebFlux（1/2 基于注解编程模型）
+	SpringWebFlux实现方式有两种：**注解编程模型**和**函数式编程模型**
+	使用注解编程模型方式，和SpringMVC使用很相似，只需要把相关依赖配置到项目中，SpringBoot自动配置相关运行容器，默认情况下使用Netty服务器
+	第一步 创建SpringBoot工程，引入WebFlux依赖
 
-6、SpringWebFlux（基于函数式编程模型）
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-webflux</artifactId>
+</dependency>
+```
+
+​	第二步 配置启动端口号
+![11_WebFluxCoding_ServerPortSetup](./readme_pic/11_WebFluxCoding_ServerPortSetup.png)
+​	第三步 创建包和相关类
+
+```java
+//用户实体类
+public class User {
+  private String name;
+  private String gender;
+  private Integer age;
+
+  public User(String name, String gender, Integer age) {
+    this.name = name;
+    this.gender = gender;
+    this.age = age;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+}
+
+
+//用户操作接口
+public interface UserService {
+
+  //根据id查询用户
+  Mono<User> getUserById(int id);
+
+  //查询所有用户
+  Flux<User> getAllUser();
+
+  //添加用户
+  Mono<Void> saveUserInfo(Mono<User> user);
+}
+
+
+//用户操作接口实现类
+@Component
+public class UserServiceImpl implements UserService {
+
+    //创建map集合存储数据（这里为了知识点学习方便，不从数据库造数据取出）
+    private final Map<Integer, User> users = new HashMap<>();
+
+    public UserServiceImpl() {
+        this.users.put(1, new User("Lucy", "female", 20));
+        this.users.put(2, new User("Mary", "female", 30));
+        this.users.put(3, new User("Jack", "female", 50));
+    }
+
+    @Override
+    public Mono<User> getUserById(int id) {
+        return Mono.justOrEmpty(this.users.get(id));
+    }
+
+    @Override
+    public Flux<User> getAllUser() {
+        return Flux.fromIterable(this.users.values());
+    }
+
+    @Override
+    public Mono<Void> saveUserInfo(Mono<User> userMono) {
+        return userMono.doOnNext(person -> {
+            //向map集合里面放值
+            int id = users.size() + 1;
+            users.put(id, person);
+        }).thenEmpty(Mono.empty()); //清空Mono元素终止
+    }
+}
+
+
+//创建controller
+@RestController
+public class UserController {
+
+    //注入service
+    @Autowired
+    private UserService userService;
+
+    //根据id查询用户
+    @GetMapping("/user/{id}")
+    public Mono<User> getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
+
+    //查询所有用户
+    @GetMapping("/user")
+    public Flux<User> getAllUser() {
+        return userService.getAllUser();
+    }
+
+    //添加用户
+    @PostMapping("/saveUser")
+    public Mono<Void> saveUserInfo(@RequestBody User user) {
+        Mono<User> userNew = Mono.just(user);
+        return userService.saveUserInfo(userNew);
+    }
+}
+```
+
+​	执行SpringBoot Application启动类测试：
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+​	根据id查询用户
+![12_WebFluxTesting_GetUserById](./readme_pic/12_WebFluxTesting_GetUserById.png)
+​	查询所有用户
+![13_WebFluxTesting_GetAllUser](./readme_pic/13_WebFluxTesting_GetAllUser.png)
+​	添加用户
+![14_WebFluxTesting_SaveUserRequest](./readme_pic/14_WebFluxTesting_SaveUserRequest.png)
+![14_WebFluxTesting_SaveUserResult](./readme_pic/14_WebFluxTesting_SaveUserResult.png)
+
+```bash
+curl --location --request POST 'http://localhost:8081/saveUser' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "David",
+    "gender": "male",
+    "age": 28
+}'
+```
+
+总结：SpringWebFlux与SpringMVC编写方式差异不大，但底层实现完全不一样了。
+***SpringMVC方式实现**：同步阻塞的方式，基于SpringMVC+Servlet+Tomcat
+***SpringWebFlux方式实现**：异步非阻塞的方式，基于SpringWebFlux+Reactor+Netty
+
+6、SpringWebFlux（2/2 基于函数式编程模型）
