@@ -60,7 +60,7 @@ execution(* com.atguigu.dao.BookDao.add(..))
 ​		举例2：对com.atguigu.dao.**BookDao类**的**所有的方法**进行增强
 
 ```plain/text
-execution(* com.atguigu.dao.BookDao.add(..))
+execution(* com.atguigu.dao.BookDao.*(..))
 				权限修饰符：*号表示public或者private方法
 				返回类型：省略
 				类全路径：com.atguigu.dao.BookDao
